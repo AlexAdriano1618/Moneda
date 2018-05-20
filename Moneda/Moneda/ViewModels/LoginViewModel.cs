@@ -5,17 +5,24 @@ namespace Moneda.ViewModels
     using GalaSoft.MvvmLight.Command;
     using System.Windows.Input;
     using Xamarin.Forms;
+    using Views;
     public class LoginViewModel : BaseViewModel
     {
 
         #region Atributos
+        private string email;
         private string contrasena;
         private bool isEnable;
         private bool isRunnig;
         #endregion
 
         #region Propiedades
-        public string Email { get; set; }
+        public string Email
+        {
+            get { return this.email; }
+            set { SetValue(ref this.email, value); }
+
+        }
         public string Contrasena
         {
             get { return this.contrasena; }
@@ -40,6 +47,9 @@ namespace Moneda.ViewModels
         {
             this.Recordado = true;
             this.IsEnable = true;
+            this.Email = "alexliga1998@outlook.com";
+            this.Contrasena = "1234";
+           // http://restcountries.eu/rest/v2/all
 
         }
         #endregion
@@ -90,10 +100,14 @@ namespace Moneda.ViewModels
             }
             this.IsRunnig = false;
             this.IsEnable = true;
-            await Application.Current.MainPage.DisplayAlert(
-                    "OK",
-                    "OK.",
-                    "Accept");
+
+            this.Email = string.Empty;
+            this.Contrasena = string.Empty;
+            // estableciedo la clase la clase MainviewModel
+            MainViewModel.GetInstance().Paises = new PaisesViewModel();
+            await Application.Current.MainPage.Navigation.PushModalAsync( new PaisesPage());
+
+
         }
         #endregion
 

@@ -12,11 +12,31 @@ namespace Moneda.ViewModels
             get;
             set;
         }
+        public PaisesViewModel Paises
+        {
+            get;
+            set;
+        }
         #endregion
+
         #region Constructor
         public MainViewModel()
         {
+            Instance = this;
             this.Login = new LoginViewModel();
+        }
+        #endregion
+
+        #region Singleton
+
+        private static MainViewModel Instance;
+        public static MainViewModel GetInstance()
+        {
+            if (Instance == null)
+            {
+                return new MainViewModel();
+            }
+            return Instance;
         }
         #endregion
     }
