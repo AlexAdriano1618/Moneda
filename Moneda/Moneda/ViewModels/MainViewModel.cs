@@ -17,6 +17,11 @@ namespace Moneda.ViewModels
             get;
             set;
         }
+        public PaisViewModel Pais
+        {
+            get;
+            set;
+        }
         #endregion
 
         #region Constructor
