@@ -1,23 +1,35 @@
 ﻿using GalaSoft.MvvmLight.Command;
+using System.ComponentModel;
 using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace Moneda.ViewModels
 {
-    public class LoginViewModel
+    public class LoginViewModel : INotifyPropertyChanged
     {
+        #region Eventos
+        public event PropertyChangedEventHandler PropertyChanged;
+        #endregion
+
+        #region MyRegion
+        private string contrasena { get; set; }
+        private string isEnable { get; set; }
+        private string isRunnig { get; set; }
+        #endregion
+
         #region Propiedades
         public string Email { get; set; }
         public string Contrasena { get; set; }
         public bool IsRunnig { get; set; }
         public bool Recordado { get; set; }
+        public bool IsEnable { get; set; }
         #endregion
 
         #region constructor
 
         public LoginViewModel()
         {
-           this.Recordado = true;
+            this.Recordado = true;
 
         }
         #endregion
@@ -30,6 +42,8 @@ namespace Moneda.ViewModels
                 return new RelayCommand(Login);
             }
         }
+
+
 
         private async void Login()
         {
@@ -47,7 +61,7 @@ namespace Moneda.ViewModels
                     "You must enter an Password.",
                     "Accept");
             }
-            if (this.Email!="alexliga1998@outlook.com" || this.Contrasena!="1234")
+            if (this.Email != "alexliga1998@outlook.com" || this.Contrasena != "1234")
             {
                 await Application.Current.MainPage.DisplayAlert(
                     "Error",
