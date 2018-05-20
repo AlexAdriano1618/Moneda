@@ -1,6 +1,7 @@
 ﻿
 namespace Moneda.ViewModels
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
@@ -17,14 +18,14 @@ namespace Moneda.ViewModels
         #endregion
 
         #region Attributes
-        private ObservableCollection<Pais> paises;
+        private ObservableCollection<PaisItemViewModel> paises;
         private bool isRefreshing;
         private string filter;
         private List<Pais> ListaPaises;
         #endregion
 
         #region Properties
-        public ObservableCollection<Pais> Paises
+        public ObservableCollection<PaisItemViewModel> Paises
         {
             get { return this.paises; }
             set { SetValue(ref this.paises, value); }
@@ -86,8 +87,10 @@ namespace Moneda.ViewModels
                 await Application.Current.MainPage.Navigation.PopAsync();
                 return;
             }
+            //MainViewModel.GetInstance(). = (List<Pais>)response.Result;
             this.ListaPaises = (List<Pais>)response.Result;
-            this.Paises = new ObservableCollection<Pais>(this.ListaPaises);
+            this.Paises = new ObservableCollection<PaisItemViewModel>(
+                this.ToPaisItemViewModel());
             this.IsRefreshing = false;
 
 
@@ -125,39 +128,41 @@ namespace Moneda.ViewModels
             //    this.ToLandItemViewModel());
             //this.IsRefreshing = false;
         }
+
+        
         #endregion
 
         #region Methods
-        //private IEnumerable<Pais> ToLandItemViewModel()
-        //{
-        //    //return MainViewModel.GetInstance().ListaPaises.Select(l => new Pais
-            //{
-            //    Alpha2Code = l.Alpha2Code,
-            //    Alpha3Code = l.Alpha3Code,
-            //    AltSpellings = l.AltSpellings,
-            //    Area = l.Area,
-            //    Borders = l.Borders,
-            //    CallingCodes = l.CallingCodes,
-            //    Capital = l.Capital,
-            //    Cioc = l.Cioc,
-            //    Currencies = l.Currencies,
-            //    Demonym = l.Demonym,
-            //    Flag = l.Flag,
-            //    Gini = l.Gini,
-            //    Languages = l.Languages,
-            //    Latlng = l.Latlng,
-            //    Name = l.Name,
-            //    NativeName = l.NativeName,
-            //    NumericCode = l.NumericCode,
-            //    Population = l.Population,
-            //    Region = l.Region,
-            //    RegionalBlocs = l.RegionalBlocs,
-            //    Subregion = l.Subregion,
-            //    Timezones = l.Timezones,
-            //    TopLevelDomain = l.TopLevelDomain,
-            //    Translations = l.Translations,
-            //});
-        //}
+        private IEnumerable<PaisItemViewModel> ToPaisItemViewModel()
+        {
+            return this.ListaPaises.Select(l => new PaisItemViewModel
+            {
+                Alpha2Code = l.Alpha2Code,
+                Alpha3Code = l.Alpha3Code,
+                AltSpellings = l.AltSpellings,
+                Area = l.Area,
+                Borders = l.Borders,
+                CallingCodes = l.CallingCodes,
+                Capital = l.Capital,
+                Cioc = l.Cioc,
+                Currencies = l.Currencies,
+                Demonym = l.Demonym,
+                Flag = l.Flag,
+                Gini = l.Gini,
+                Languages = l.Languages,
+                Latlng = l.Latlng,
+                Name = l.Name,
+                NativeName = l.NativeName,
+                NumericCode = l.NumericCode,
+                Population = l.Population,
+                Region = l.Region,
+                RegionalBlocs = l.RegionalBlocs,
+                Subregion = l.Subregion,
+                Timezones = l.Timezones,
+                TopLevelDomain = l.TopLevelDomain,
+                Translations = l.Translations,
+            });
+        }
 
         #endregion
 
@@ -182,13 +187,13 @@ namespace Moneda.ViewModels
         {
             if (string.IsNullOrEmpty(this.Filter))
             {
-                this.Paises = new ObservableCollection<Pais>(
-                    this.ListaPaises);
+                this.Paises = new ObservableCollection<PaisItemViewModel>(
+                    this.ToPaisItemViewModel());
             }
             else
             {
-                this.Paises = new ObservableCollection<Pais>(
-                    this.ListaPaises.Where(
+                this.Paises = new ObservableCollection<PaisItemViewModel>(
+                    this.ToPaisItemViewModel().Where(
                         l => l.Name.ToLower().Contains(this.Filter.ToLower()) ||
                              l.Capital.ToLower().Contains(this.Filter.ToLower())));
             }
