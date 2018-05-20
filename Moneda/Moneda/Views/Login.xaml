@@ -11,7 +11,7 @@
                 Padding="5">                
                 <Image
                         Source="onu"
-                        WidthRequest="200">
+                        WidthRequest="100">
                 </Image>
                 <Grid
                     Margin="10,0"
@@ -101,15 +101,15 @@
                     VerticalOptions="EndAndExpand">
                     <Image
                         Source="facebook"
-                        WidthRequest="100">
+                        WidthRequest="50">
                     </Image>
                     <Image
                         Source="twitter"
-                        WidthRequest="100">
+                        WidthRequest="50">
                     </Image>
                     <Image
                         Source="instagram"
-                        WidthRequest="100">
+                        WidthRequest="50">
                     </Image>
                 </StackLayout>
             </StackLayout>

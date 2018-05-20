@@ -1,28 +1,37 @@
-﻿using GalaSoft.MvvmLight.Command;
-using System.ComponentModel;
-using System.Windows.Input;
-using Xamarin.Forms;
+﻿
 
 namespace Moneda.ViewModels
 {
-    public class LoginViewModel : INotifyPropertyChanged
+    using GalaSoft.MvvmLight.Command;
+    using System.Windows.Input;
+    using Xamarin.Forms;
+    public class LoginViewModel : BaseViewModel
     {
-        #region Eventos
-        public event PropertyChangedEventHandler PropertyChanged;
-        #endregion
 
-        #region MyRegion
-        private string contrasena { get; set; }
-        private string isEnable { get; set; }
-        private string isRunnig { get; set; }
+        #region Atributos
+        private string contrasena;
+        private bool isEnable;
+        private bool isRunnig;
         #endregion
 
         #region Propiedades
         public string Email { get; set; }
-        public string Contrasena { get; set; }
-        public bool IsRunnig { get; set; }
+        public string Contrasena
+        {
+            get { return this.contrasena; }
+            set { SetValue(ref this.contrasena, value); }
+        }
+        public bool IsRunnig
+        {
+            get { return this.isRunnig; }
+            set { SetValue(ref this.isRunnig, value); }
+        }
         public bool Recordado { get; set; }
-        public bool IsEnable { get; set; }
+        public bool IsEnable
+        {
+            get { return this.isEnable; }
+            set { SetValue(ref this.isEnable, value); }
+        }
         #endregion
 
         #region constructor
@@ -30,6 +39,7 @@ namespace Moneda.ViewModels
         public LoginViewModel()
         {
             this.Recordado = true;
+            this.IsEnable = true;
 
         }
         #endregion
@@ -53,6 +63,7 @@ namespace Moneda.ViewModels
                     "Error",
                     "You must enter an email.",
                     "Accept");
+                return;
             }
             if (string.IsNullOrEmpty(this.Contrasena))
             {
@@ -60,18 +71,28 @@ namespace Moneda.ViewModels
                     "Error",
                     "You must enter an Password.",
                     "Accept");
+                return;
             }
+
+            this.IsRunnig = true;
+            this.IsEnable = false;
+
             if (this.Email != "alexliga1998@outlook.com" || this.Contrasena != "1234")
             {
+                this.IsRunnig = false;
+                this.IsEnable = true;
                 await Application.Current.MainPage.DisplayAlert(
                     "Error",
                     "Email or Password incorrect.",
                     "Accept");
                 this.Contrasena = string.Empty;
+                return;
             }
+            this.IsRunnig = false;
+            this.IsEnable = true;
             await Application.Current.MainPage.DisplayAlert(
                     "OK",
-                    "Email or Password incorrect.",
+                    "OK.",
                     "Accept");
         }
         #endregion
