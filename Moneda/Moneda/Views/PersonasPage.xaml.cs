@@ -2,9 +2,9 @@
 namespace Moneda.Views
 {
     using Xamarin.Forms;
-	public partial class PaisesPage : ContentPage
+	public partial class PersonasPage : ContentPage
 	{
-		public PaisesPage ()
+		public PersonasPage()
 		{
 			InitializeComponent ();
 		}
