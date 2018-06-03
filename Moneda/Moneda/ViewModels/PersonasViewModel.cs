@@ -11,24 +11,24 @@ namespace Moneda.ViewModels
     using Models;
     using Services;
     using Xamarin.Forms;
-    public class PaisesViewModel : BaseViewModel
+    public class PersonasViewModel : BaseViewModel
     {
         #region Services
         private ApiService apiService;
         #endregion
 
         #region Attributes
-        private ObservableCollection<PaisItemViewModel> paises;
+        private ObservableCollection<PersonaItemViewModel> personas;
         private bool isRefreshing;
         private string filter;
-       // private List<Pais> ListaPaises;
+        // private List<Pais> ListaPaises;
         #endregion
 
         #region Properties
-        public ObservableCollection<PaisItemViewModel> Paises
+        public ObservableCollection<PersonaItemViewModel> Personas
         {
-            get { return this.paises; }
-            set { SetValue(ref this.paises, value); }
+            get { return this.personas; }
+            set { SetValue(ref this.personas, value); }
         }
 
         public bool IsRefreshing
@@ -50,15 +50,15 @@ namespace Moneda.ViewModels
         #endregion
 
         #region Constructors
-        public PaisesViewModel()
+        public PersonasViewModel()
         {
             this.apiService = new ApiService();
-            this.LoadPaises();
+            this.LoadPersonas();
         }
         #endregion
 
         #region Methods
-        private async void LoadPaises()
+        private async void LoadPersonas()
         {
             this.IsRefreshing = true;
             var connection = await this.apiService.CheckConnection();
@@ -73,10 +73,10 @@ namespace Moneda.ViewModels
                 await Application.Current.MainPage.Navigation.PopAsync();
                 return;
             }
-            var response = await this.apiService.GetList<Pais>(
-                "http://restcountries.eu",
-                "/rest",
-                "/v2/all");
+            var response = await this.apiService.GetList<Persona>(
+                "http://coreservicioapp.azurewebsites.net",
+                "/api",
+                "/Personas");
             if (!response.IsSuccess)
             {
                 this.IsRefreshing = false;
@@ -87,45 +87,26 @@ namespace Moneda.ViewModels
                 await Application.Current.MainPage.Navigation.PopAsync();
                 return;
             }
-            MainViewModel.GetInstance().ListaPaises = (List<Pais>)response.Result;
-            this.Paises = new ObservableCollection<PaisItemViewModel>(
-                this.ToPaisItemViewModel());
+            MainViewModel.GetInstance().ListaPersona = (List<Persona>)response.Result;
+            this.Personas = new ObservableCollection<PersonaItemViewModel>(
+                this.ToPersonaItemViewModel());
             this.IsRefreshing = false;
 
         }
 
-        
+
         #endregion
 
         #region Methods
-        private IEnumerable<PaisItemViewModel> ToPaisItemViewModel()
+        private IEnumerable<PersonaItemViewModel> ToPersonaItemViewModel()
         {
-            return MainViewModel.GetInstance().ListaPaises.Select(l => new PaisItemViewModel
+            return MainViewModel.GetInstance().ListaPersona.Select(l => new PersonaItemViewModel
             {
-                Alpha2Code = l.Alpha2Code,
-                Alpha3Code = l.Alpha3Code,
-                AltSpellings = l.AltSpellings,
-                Area = l.Area,
-                Borders = l.Borders,
-                CallingCodes = l.CallingCodes,
-                Capital = l.Capital,
-                Cioc = l.Cioc,
-                Currencies = l.Currencies,
-                Demonym = l.Demonym,
-                Flag = l.Flag,
-                Gini = l.Gini,
-                Languages = l.Languages,
-                Latlng = l.Latlng,
-                Name = l.Name,
-                NativeName = l.NativeName,
-                NumericCode = l.NumericCode,
-                Population = l.Population,
-                Region = l.Region,
-                RegionalBlocs = l.RegionalBlocs,
-                Subregion = l.Subregion,
-                Timezones = l.Timezones,
-                TopLevelDomain = l.TopLevelDomain,
-                Translations = l.Translations,
+                Id= l.Id,
+                Cedula =l.Cedula,
+                Nombres = l.Nombres,
+                Apelllidos = l.Apelllidos,
+                Email = l.Email
             });
         }
 
@@ -136,7 +117,7 @@ namespace Moneda.ViewModels
         {
             get
             {
-                return new RelayCommand(LoadPaises);
+                return new RelayCommand(LoadPersonas);
             }
         }
 
@@ -152,15 +133,15 @@ namespace Moneda.ViewModels
         {
             if (string.IsNullOrEmpty(this.Filter))
             {
-                this.Paises = new ObservableCollection<PaisItemViewModel>(
-                    this.ToPaisItemViewModel());
+                this.Personas = new ObservableCollection<PersonaItemViewModel>(
+                    this.ToPersonaItemViewModel());
             }
             else
             {
-                this.Paises = new ObservableCollection<PaisItemViewModel>(
-                    this.ToPaisItemViewModel().Where(
-                        l => l.Name.ToLower().Contains(this.Filter.ToLower()) ||
-                             l.Capital.ToLower().Contains(this.Filter.ToLower())));
+                this.Personas = new ObservableCollection<PersonaItemViewModel>(
+                    this.ToPersonaItemViewModel().Where(
+                        l => l.Cedula.ToLower().Contains(this.Filter.ToLower()) ||
+                             l.Apelllidos.ToLower().Contains(this.Filter.ToLower())));
             }
         }
         #endregion

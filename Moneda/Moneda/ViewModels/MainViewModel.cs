@@ -4,9 +4,23 @@ using System.Text;
 
 namespace Moneda.ViewModels
 {
+    using Models;
     public class MainViewModel
     {
+        #region Propiedades
+        public List<Pais> ListaPaises
+        {
+            get;
+            set;
+        }
+        public List<Persona> ListaPersona
+        {
+            get;
+            set;
+        }
+        #endregion
         #region ViewModel
+
         public LoginViewModel Login
         {
             get;
@@ -18,6 +32,16 @@ namespace Moneda.ViewModels
             set;
         }
         public PaisViewModel Pais
+        {
+            get;
+            set;
+        }
+        public PersonasViewModel Personas
+        {
+            get;
+            set;
+        }
+        public PersonaViewModel Persona
         {
             get;
             set;

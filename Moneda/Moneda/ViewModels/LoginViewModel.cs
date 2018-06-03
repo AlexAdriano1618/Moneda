@@ -104,8 +104,10 @@ namespace Moneda.ViewModels
             this.Email = string.Empty;
             this.Contrasena = string.Empty;
             // estableciedo la clase la clase MainviewModel
-            MainViewModel.GetInstance().Paises = new PaisesViewModel();
-            await Application.Current.MainPage.Navigation.PushModalAsync( new PaisesPage());
+            //MainViewModel.GetInstance().Paises = new PaisesViewModel();
+            //await Application.Current.MainPage.Navigation.PushModalAsync( new PaisesPage());
+            MainViewModel.GetInstance().Personas = new PersonasViewModel();
+            await Application.Current.MainPage.Navigation.PushModalAsync( new PersonasPage());
 
 
         }
